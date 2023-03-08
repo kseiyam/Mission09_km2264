@@ -1,0 +1,40 @@
+﻿@page
+@model Mission09_km2264.Pages.AddModel
+@{
+}
+
+<link href="~/lib/css/mybootstrap.css" rel="stylesheet" />
+
+<h2>Your Cart</h2>
+
+<table class="table table-bordered table-striped table-info">
+    <thead class="table-active">
+        <tr>
+            <th>Items</th>
+            <th>Quantity</th>
+            <th>Cost</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.cart.Items)
+        {
+            <tr>
+                <td>@i.Book.Title</td>
+                <td>@i.Quantity</td>
+                <td>$@i.Book.Price</td>
+                <td>$@(i.Quantity * i.Book.Price)</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3">Total:</td>
+            <td>$@Model.cart.CalculateTotal()</td>
+        </tr>
+    </tfoot>
+</table>
+
+<div>
+    <a class="btn btn-primary" href="@Model.ReturnUrl">Continue Shopping</a>
+</div>

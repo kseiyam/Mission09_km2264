@@ -15,7 +15,7 @@ namespace Mission09_km2264.Controllers
         {
             repo = temp;
         }
-        public IActionResult Index(int pageNum = 1)
+        public IActionResult Index(string category, int pageNum = 1)
         {
             //results per page
             int numResults = 10;
@@ -23,13 +23,16 @@ namespace Mission09_km2264.Controllers
             var x = new BooksViewModel
             {
                 Books = repo.Books
+                .Where(b => b.Category == category || category == null)
                 .OrderBy(b => b.Title)
                 .Skip(numResults * (pageNum - 1))
                 .Take(numResults),
 
                 PageInfo = new PageInfo
                 {
-                    TotalNumBooks = repo.Books.Count(),
+                    TotalNumBooks = (category == null 
+                    ? repo.Books.Count() 
+                    : repo.Books.Where(x => x.Category == category).Count()),
                     BooksPerPage = numResults,
                     CurrentPage = pageNum
                 }
